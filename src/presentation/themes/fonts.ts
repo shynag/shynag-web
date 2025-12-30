@@ -1,6 +1,6 @@
-import { Montserrat } from "next/font/google";
+import { Manrope } from "next/font/google";
 
-export const fontSans = Montserrat({
+export const fontSans = Manrope({
   subsets: ["latin"],
   variable: "--font-sans",
 });
