@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getGlobalSiteData } from "@modules/site/service";
 import "@presentation/styles/globals.css";
 import { fontSans } from "@presentation/themes/fonts";
+import { SmoothScroll } from "@/presentation/components/providers/SmoothScroll";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { identity } = await getGlobalSiteData();
@@ -30,7 +31,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={fontSans.className}>{children}</body>
+      <body className={fontSans.className}>
+        <SmoothScroll>{children}</SmoothScroll>
+      </body>
     </html>
   );
 }

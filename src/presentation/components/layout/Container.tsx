@@ -1,24 +1,15 @@
+import * as React from "react";
 import { cn } from "@presentation/lib/utils";
 
-interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
-  as?: React.ElementType; // Bisa jadi div, section, header, dll
+interface ContainerProps {
+  children: React.ReactNode;
+  className?: string;
 }
 
-export function Container({
-  children,
-  className,
-  as: Component = "div",
-  ...props
-}: ContainerProps) {
+export function Container({ children, className }: ContainerProps) {
   return (
-    <Component
-      className={cn(
-        "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8", // Standar Responsive
-        className
-      )}
-      {...props}
-    >
+    <div className={cn("max-w-6xl mx-auto w-full px-6", className)}>
       {children}
-    </Component>
+    </div>
   );
 }

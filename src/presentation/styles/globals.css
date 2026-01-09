@@ -6,30 +6,6 @@
 @theme {
   --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-heading), ui-serif, Georgia, serif;
-
-  --color-background: var(--color-background);
-  --color-foreground: var(--color-foreground);
-
-  --color-primary: hsl(221.2 83.2% 53.3%);
-  --color-primary-foreground: hsl(210 40% 98%);
-
-  --color-secondary: hsl(210 40% 96.1%);
-  --color-secondary-foreground: hsl(222.2 47.4% 11.2%);
-
-  --color-muted: hsl(210 40% 96.1%);
-  --color-muted-foreground: hsl(215.4 16.3% 46.9%);
-
-  --color-border: hsl(214.3 31.8% 91.4%);
-
-  --radius: 0.5rem;
-}
-
-/* --- 3. Base Reset --- */
-@layer base {
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-  }
 }
 
 @theme inline {
@@ -71,6 +47,8 @@
 
   --color-muted-foreground: var(--muted-foreground);
 
+  --color-subtle-foreground: var(--subtle-foreground);
+
   --color-accent: var(--accent);
 
   --color-accent-foreground: var(--accent-foreground);
@@ -108,75 +86,31 @@
   --color-sidebar-border: var(--sidebar-border);
 
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --animate-marquee: marquee var(--duration) infinite linear;
+
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
 }
 
 :root {
   --radius: 0.625rem;
 
-  --card: oklch(1 0 0);
-
-  --card-foreground: oklch(0.141 0.005 285.823);
-
-  --popover: oklch(1 0 0);
-
-  --popover-foreground: oklch(0.141 0.005 285.823);
-
-  --primary: oklch(0.21 0.006 285.885);
-
-  --primary-foreground: oklch(0.985 0 0);
-
-  --secondary: oklch(0.967 0.001 286.375);
-
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-
-  --muted: oklch(0.967 0.001 286.375);
-
-  --muted-foreground: oklch(0.552 0.016 285.938);
-
-  --accent: oklch(0.967 0.001 286.375);
-
-  --accent-foreground: oklch(0.21 0.006 285.885);
-
-  --destructive: oklch(0.577 0.245 27.325);
-
-  --border: oklch(0.92 0.004 286.32);
-
-  --input: oklch(0.92 0.004 286.32);
-
-  --ring: oklch(0.705 0.015 286.067);
-
-  --chart-1: oklch(0.646 0.222 41.116);
-
-  --chart-2: oklch(0.6 0.118 184.704);
-
-  --chart-3: oklch(0.398 0.07 227.392);
-
-  --chart-4: oklch(0.828 0.189 84.429);
-
-  --chart-5: oklch(0.769 0.188 70.08);
-
-  --sidebar: oklch(0.985 0 0);
-
-  --sidebar-foreground: oklch(0.141 0.005 285.823);
-
-  --sidebar-primary: oklch(0.21 0.006 285.885);
-
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-
-  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
-
-  --sidebar-border: oklch(0.92 0.004 286.32);
-
-  --sidebar-ring: oklch(0.705 0.015 286.067);
-
-  --background: oklch(1 0 0);
-
-  --foreground: oklch(0.141 0.005 285.823);
-}
-
-.dark {
   --background: oklch(0.141 0.005 285.823);
 
   --foreground: oklch(0.985 0 0);
@@ -200,6 +134,8 @@
   --muted: oklch(0.274 0.006 286.033);
 
   --muted-foreground: oklch(0.705 0.015 286.067);
+
+  --subtle-foreground: oklch(87.1% 0.006 286.286);
 
   --accent: oklch(0.274 0.006 286.033);
 
@@ -240,11 +176,55 @@
   --sidebar-ring: oklch(0.552 0.016 285.938);
 }
 
+@layer utilities {
+  .text-micro {
+    @apply text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80;
+  }
+
+  .lead {
+    @apply text-lg lg:text-xl text-muted-foreground leading-relaxed font-normal;
+  }
+}
+
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-none outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased scroll-smooth;
+  }
+
+  /* Typography */
+  h1 {
+    @apply scroll-m-20 font-medium tracking-normal text-balance;
+    @apply text-4xl sm:text-5xl lg:text-6xl leading-[1.1];
+  }
+
+  h2 {
+    @apply scroll-m-20 font-medium tracking-normal text-balance;
+    @apply text-3xl sm:text-4xl lg:text-5xl leading-tight;
+  }
+
+  h3 {
+    @apply scroll-m-20 font-medium tracking-normal;
+    @apply text-2xl lg:text-3xl;
+  }
+
+  h4 {
+    @apply scroll-m-20 font-medium tracking-normal;
+    @apply text-xl lg:text-2xl;
+  }
+
+  p {
+    @apply leading-relaxed font-normal tracking-normal text-pretty text-muted-foreground;
+    @apply text-base lg:text-lg;
+  }
+
+  blockquote {
+    @apply border-l-2 border-primary/50 pl-6 italic text-foreground text-lg lg:text-xl font-medium;
+  }
+
+  ul {
+    @apply list-disc text-muted-foreground text-base lg:text-lg;
   }
 }
