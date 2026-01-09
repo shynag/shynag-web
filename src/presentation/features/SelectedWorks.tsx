@@ -13,7 +13,7 @@ const projects = [
     id: 1,
     title: "An Exploration in F&B Web Design",
     category: "Internal Concept",
-    imageUrl: "/10.png",
+    imageUrl: "/1.png",
     href: "#",
   },
 ];
