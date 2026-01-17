@@ -181,14 +181,14 @@
     @apply text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80;
   }
 
-  .lead {
-    @apply text-lg lg:text-xl text-muted-foreground leading-relaxed font-normal;
+  .text-lead {
+    @apply text-lg lg:text-xl text-foreground leading-relaxed font-normal;
   }
 }
 
 @layer base {
   * {
-    @apply border-none outline-ring/50;
+    @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground font-sans antialiased scroll-smooth;
@@ -207,12 +207,12 @@
 
   h3 {
     @apply scroll-m-20 font-medium tracking-normal;
-    @apply text-2xl lg:text-3xl;
+    @apply text-xl lg:text-2xl;
   }
 
   h4 {
     @apply scroll-m-20 font-medium tracking-normal;
-    @apply text-xl lg:text-2xl;
+    @apply text-lg lg:text-xl;
   }
 
   p {
