@@ -1,21 +1,11 @@
-import { Footer } from "@/presentation/components/layout/Footer";
-import { Hero } from "@/presentation/features/Hero";
-import { Capabilities } from "@/presentation/features/Capabilities";
-import { SelectedWorks } from "@/presentation/features/SelectedWorks";
-import { About } from "@/presentation/features/About";
-import { BrandMarquee } from "@/presentation/features/BrandMarquee";
+import { Hero } from "@/app/_components/home/Hero";
+import { Directory } from "@/app/_components/home/Directory";
 
-export default function page() {
+export default function HomePage() {
   return (
-    <div>
-      <main>
-        <Hero />
-        <SelectedWorks />
-        <BrandMarquee />
-        <Capabilities />
-        <About />
-      </main>
-      <Footer />
+    <div className="flex flex-col gap-24">
+      <Hero />
+      <Directory />
     </div>
   );
 }

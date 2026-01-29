@@ -1,0 +1,40 @@
+---
+title: Memahami Eventual Consistency pada Microservices
+publishedDate: "2024-01-15"
+---
+
+Ketika membangun sistem terdistribusi, kita sering dihadapkan pada pilihan sulit antara konsistensi data yang ketat (_Strong Consistency_) atau ketersediaan sistem yang tinggi (_High Availability_). Dalam arsitektur microservices, memaksakan transaksi ACID di seluruh layanan seringkali menjadi penghambat performa.
+
+## Masalah dengan Distributed Transactions
+
+Menggunakan **Two-Phase Commit (2PC)** memang menjamin data konsisten, tapi latensinya sangat tinggi. Jika satu service down, seluruh transaksi akan terhenti (_blocking_). Inilah mengapa model _Eventual Consistency_ menjadi solusi populer.
+
+Bayangkan skenario checkout di e-commerce:
+
+1.  User klik "Beli".
+2.  Service Order membuat pesanan.
+3.  Service Inventory mengurangi stok.
+4.  Service Payment memproses pembayaran.
+
+Jika kita membungkus ini dalam satu transaksi sinkronus, kegagalan di Payment akan membatalkan Order. Terdengar bagus, tapi bagaimana jika Payment gateway sedang maintenance? User tidak bisa belanja sama sekali.
+
+```go
+// Masalah: Code ini blocking dan rentan gagal total
+func Checkout(order Order) error {
+    tx := db.Begin()
+
+    if err := CreateOrder(tx, order); err != nil {
+        tx.Rollback()
+        return err
+    }
+
+    // Jika ini lambat/down, user menunggu lama atau error
+    if err := PaymentService.Charge(order.Total); err != nil {
+        tx.Rollback()
+        return err
+    }
+
+    tx.Commit()
+    return nil
+}
+```

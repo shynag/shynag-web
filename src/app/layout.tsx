@@ -1,12 +1,25 @@
-import { env } from "@core/env";
+import { env } from "@/lib/env";
 import type { Metadata } from "next";
-import { getGlobalSiteData } from "@modules/site/service";
-import "@presentation/styles/globals.css";
-import { fontSans } from "@presentation/themes/fonts";
-import { SmoothScroll } from "@/presentation/components/providers/SmoothScroll";
+import { createReader } from "@keystatic/core/reader";
+import config from "@config";
+import "@/styles/globals.css";
+import { Space_Grotesk } from "next/font/google";
+import { LayoutProvider } from "./layout-provider";
+
+const fontSans = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { identity } = await getGlobalSiteData();
+  const reader = createReader(process.cwd(), config);
+  const identity = await reader.singletons.identity.read();
+
+  if (!identity) {
+    return {
+      title: "Vectris Studio",
+    };
+  }
 
   return {
     metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),
@@ -32,7 +45,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={fontSans.className}>
-        <SmoothScroll>{children}</SmoothScroll>
+        <LayoutProvider>{children}</LayoutProvider>
       </body>
     </html>
   );
