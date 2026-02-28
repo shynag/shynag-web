@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { DocumentRenderer } from "@keystatic/core/renderer";
+import type { DocumentElement } from "@keystatic/core";
 
 type HeroProps = {
   profile: {
     displayName: string;
-    bio: Document | string; // Allow bio to be a string for legacy data
+    bio?: readonly DocumentElement[];
     avatar: string | null;
   } | null;
   identity: {

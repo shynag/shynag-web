@@ -18,12 +18,40 @@ export default async function HomePage() {
       ? await profileData.bio()
       : profileData?.bio;
 
-  const profile = profileData ? { ...profileData, bio: bioContent } : null;
+  // Ensure the profile passed to Hero matches the expected shape (displayName, bio, avatar)
+  const profile = profileData
+    ? {
+        displayName: profileData.displayName,
+        bio: bioContent as
+          | readonly import("@keystatic/core").DocumentElement[]
+          | undefined,
+        avatar: profileData.avatar,
+      }
+    : null;
 
   return (
     <div className="flex flex-col gap-24">
-      <Hero profile={profile} identity={identity} />
-      <Directory directory={directory} />
+      <Hero
+        profile={
+          profile
+            ? { ...profile, bio: profile.bio ? [...profile.bio] : undefined }
+            : null
+        }
+        identity={identity}
+      />
+      <Directory
+        directory={
+          directory
+            ? {
+                title: directory.title,
+                links: directory.links.map((l) => ({
+                  label: l.label,
+                  href: l.href,
+                })),
+              }
+            : null
+        }
+      />
       <Contact />
     </div>
   );
