@@ -31,7 +31,7 @@ export function List({ posts }: ListProps) {
           className="group flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-12 py-6 border-b border-border hover:bg-muted/30 transition-colors"
         >
           {/* KIRI: Tanggal */}
-          <span className="shrink-0 text-sm text-muted-foreground/50 group-hover:text-foreground transition-colors font-mono">
+          <span className="shrink-0 text-sm text-muted-foreground/50 group-hover:text-foreground transition-colors">
             {post.entry.publishedDate}
           </span>
 

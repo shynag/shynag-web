@@ -1,43 +1,65 @@
 import Image from "next/image";
+import { DocumentRenderer } from "@keystatic/core/renderer";
 
-export function Hero() {
-  const profile = {
-    // Greeting dihapus
-    name: "Sheptiyan Agung Rizmawan",
-    bio: [
-      "Saya membangun sistem web yang tidak hanya fungsional, tapi juga scalable dan mudah dikembangkan. Fokus utama saya adalah clean architecture dan performa aplikasi.",
-      "Saat ini sedang fokus mendalami System Design dan Developer Experience.",
+type HeroProps = {
+  profile: {
+    displayName: string;
+    bio: Document | string; // Allow bio to be a string for legacy data
+    avatar: string | null;
+  } | null;
+  identity: {
+    name: string;
+    tagline: string;
+  } | null;
+};
+
+export function Hero({ profile, identity }: HeroProps) {
+  // Determine the data to display. Prioritize profile, fallback to identity.
+  const displayData = {
+    name: profile?.displayName || "John Doe", // Fallback name
+    bio: profile?.bio || [
+      {
+        type: "paragraph",
+        children: [
+          {
+            text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+          },
+        ],
+      },
     ],
-    avatarUrl:
-      "https://images.unsplash.com/photo-1603786420263-ad59136a7409?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    avatar: profile?.avatar || null, // Fallback avatar is null
   };
 
   return (
     <section className="flex flex-col items-start gap-6 pt-8 md:pt-12">
       {/* 1. PROFILE PICTURE */}
-      <div className="relative">
-        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border border-border bg-muted relative">
-          <Image
-            src={profile.avatarUrl}
-            alt={profile.name}
-            fill
-            className="object-cover"
-            priority
-            sizes="(max-width: 768px) 80px, 96px"
-          />
+      {displayData.avatar && (
+        <div className="relative">
+          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border border-border bg-muted relative">
+            <Image
+              src={displayData.avatar}
+              alt={displayData.name}
+              fill
+              className="object-cover"
+              priority
+              sizes="(max-width: 768px) 80px, 96px"
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* 2. TEXT CONTENT */}
       <div className="flex flex-col gap-4 max-w-2xl">
         {/* Identity: Langsung Nama */}
-        <h1>{profile.name}.</h1>
+        <h1 className="heading-style">{displayData.name}</h1>
 
         {/* Bio */}
         <div className="space-y-4 pt-1">
-          {profile.bio.map((text, index) => (
-            <p key={index}>{text}</p>
-          ))}
+          {Array.isArray(displayData.bio) ? (
+            <DocumentRenderer document={displayData.bio} />
+          ) : (
+            <p>{String(displayData.bio)}</p>
+          )}
         </div>
       </div>
     </section>

@@ -1,28 +1,41 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
-export function Directory() {
-  const menuItems = [
+type DirectoryProps = {
+  directory: {
+    title: string;
+    links: {
+      label: string;
+      href: string;
+    }[];
+  } | null;
+};
+
+const defaultDirectory = {
+  title: "Indeks",
+  links: [
     {
-      num: "01",
-      label: "Jurnal & Tulisan", // Fokus utama blog pribadi
+      label: "Blog",
       href: "/blog",
     },
     {
-      num: "02",
-      label: "Arsip Karya", // Showcase hasil kodingan
+      label: "Work",
       href: "/work",
     },
-  ];
+  ],
+};
+
+export function Directory({ directory }: DirectoryProps) {
+  const data = directory?.links?.length ? directory : defaultDirectory;
 
   return (
     <section>
       {/* HEADER */}
-      <h2 className="mb-4 text-muted-foreground">Indeks</h2>
+      <h2 className="heading-style-muted">{data.title}</h2>
 
       {/* CONTAINER */}
       <div className="flex flex-col border-t border-border">
-        {menuItems.map((item) => (
+        {data.links.map((item, index) => (
           <Link
             key={item.href}
             href={item.href}
@@ -32,12 +45,12 @@ export function Directory() {
             <div className="flex gap-6">
               {/* Nomor */}
               <span className="text-muted-foreground/50 group-hover:text-foreground transition-colors">
-                {item.num}
+                {String(index + 1).padStart(2, "0")}
               </span>
 
               {/* Label */}
               <span className="text-foreground group-hover:underline underline-offset-4 decoration-border transition-all">
-                {item.label}
+                {item.label || item.href}
               </span>
             </div>
 

@@ -49,6 +49,16 @@ export default config({
       path: "src/content/profile",
       schema: {
         displayName: fields.text({ label: "Display Name" }),
+        avatar: fields.image({
+          label: "Avatar",
+          directory: "public/assets/identity",
+          publicPath: "/assets/identity/",
+        }),
+        bio: fields.document({
+          label: "Bio",
+          formatting: true,
+          links: true,
+        }),
         email: fields.text({ label: "Public Email" }),
         phoneNumber: fields.text({ label: "Phone / WhatsApp" }),
         fullAddress: fields.text({ label: "Full Address", multiline: true }),
@@ -73,6 +83,24 @@ export default config({
           {
             label: "Social Media Accounts",
             itemLabel: (props) => props.fields.platform.value || "Social Link",
+          },
+        ),
+      },
+    }),
+    directory: singleton({
+      label: "Directory Links",
+      path: "src/content/directory",
+      schema: {
+        title: fields.text({ label: "Title" }),
+        links: fields.array(
+          fields.object({
+            label: fields.text({ label: "Label" }),
+            href: fields.text({ label: "URL (e.g., /blog)" }),
+          }),
+          {
+            label: "Links",
+            itemLabel: (props) =>
+              props.fields.label.value || props.fields.href.value || "No Label",
           },
         ),
       },

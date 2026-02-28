@@ -3,12 +3,26 @@ import type { Metadata } from "next";
 import { createReader } from "@keystatic/core/reader";
 import config from "@config";
 import "@/styles/globals.css";
-import { Space_Grotesk } from "next/font/google";
+import { Montserrat, Inter, Newsreader } from "next/font/google";
 import { LayoutProvider } from "./layout-provider";
 
-const fontSans = Space_Grotesk({
+const fontSans = Inter({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-sans",
+});
+
+const fontHeading = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-heading",
+});
+
+const fontItalic = Newsreader({
+  subsets: ["latin"],
+  weight: ["400"],
+  style: ["italic"],
+  variable: "--font-italic",
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -44,7 +58,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={fontSans.className}>
+      <body
+        className={`${fontSans.variable} ${fontHeading.variable} ${fontItalic.variable} ${fontSans.className}`}
+      >
         <LayoutProvider>{children}</LayoutProvider>
       </body>
     </html>

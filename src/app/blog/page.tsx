@@ -2,17 +2,27 @@ import { createReader } from "@keystatic/core/reader";
 import config from "@config";
 import { Header } from "@/app/blog/_components/Header";
 import { List } from "@/app/blog/_components/List";
+import { Metadata } from "next";
 
-export const metadata = {
-  title: "Catatan Teknis",
-  description: "Arsip tulisan seputar software engineering.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const reader = createReader(process.cwd(), config);
+  const directory = await reader.singletons.directory.read();
+  const blogLink = directory?.links.find((link) => link.href === "/blog");
+
+  return {
+    title: blogLink?.label || "Catatan Teknis",
+    description: "Arsip tulisan seputar software engineering.",
+  };
+}
 
 export default async function BlogPage() {
   const reader = createReader(process.cwd(), config);
 
-  // 1. Fetch posts
-  const posts = await reader.collections.posts.all();
+  // 1. Fetch posts & directory
+  const [posts, directory] = await Promise.all([
+    reader.collections.posts.all(),
+    reader.singletons.directory.read(),
+  ]);
 
   // 2. Sort by Date (Newest first)
   const sortedPosts = posts.sort((a, b) => {
@@ -21,9 +31,11 @@ export default async function BlogPage() {
     return dateB - dateA;
   });
 
+  const blogLink = directory?.links.find((link) => link.href === "/blog");
+
   return (
     <div className="flex flex-col pb-20 pt-8">
-      <Header />
+      <Header title={blogLink?.label || "Catatan Teknis"} />
       <List posts={sortedPosts} />
     </div>
   );

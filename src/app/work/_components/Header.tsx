@@ -1,7 +1,11 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
-export function Header() {
+type HeaderProps = {
+  title: string;
+};
+
+export function Header({ title }: HeaderProps) {
   return (
     <section className="flex flex-col gap-6">
       {/* Back Button */}
@@ -15,11 +19,7 @@ export function Header() {
 
       {/* Intro Text */}
       <div className="flex flex-col gap-4 max-w-2xl">
-        <h1>Arsip Proyek.</h1>
-        <p>
-          Koleksi eksperimen, perpustakaan open-source, dan sistem produksi yang
-          pernah saya kerjakan. Fokus pada skalabilitas dan arsitektur bersih.
-        </p>
+        <h1>{title}.</h1>
       </div>
     </section>
   );
