@@ -27,7 +27,7 @@ export function List({ items }: ListProps) {
   }
 
   return (
-    <section className="flex flex-col border-t border-border mt-12">
+    <section className="flex flex-col border-t border-border mt-6">
       {items.map((project) => (
         <Link
           key={project.slug}

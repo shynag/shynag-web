@@ -56,7 +56,7 @@ export function List({ posts }: ListProps) {
   }
 
   return (
-    <div className="mt-12 border-t border-border">
+    <div className="mt-6 border-t border-border">
       {prepared.map((post) => {
         const dateText = formatFullDate(post.entry.publishedDate);
         return (
