@@ -19,7 +19,7 @@ export function Header({ title }: HeaderProps) {
 
       {/* Intro Text */}
       <div className="flex flex-col gap-4 max-w-2xl">
-        <h1>{title}.</h1>
+        <h1 className="heading-style">{title}</h1>
       </div>
     </section>
   );

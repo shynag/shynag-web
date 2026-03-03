@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/breadcrumb";
 
 export function Navbar() {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "/";
   const segments = pathname.split("/").filter((item) => item !== "");
 
   const breadcrumbItems = [

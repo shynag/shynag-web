@@ -1,9 +1,8 @@
-import { env } from "@/lib/env";
+import { getEnv } from "@/lib/env";
 import type { Metadata } from "next";
-import { createReader } from "@keystatic/core/reader";
-import config from "@config";
+import { getKeystaticReader } from "@/lib/keystatic";
 import "@/styles/globals.css";
-import { Montserrat, Inter, Newsreader } from "next/font/google";
+import { Inter, Newsreader } from "next/font/google";
 import { LayoutProvider } from "./layout-provider";
 
 const fontSans = Inter({
@@ -26,7 +25,7 @@ const fontItalic = Newsreader({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const reader = createReader(process.cwd(), config);
+  const reader = getKeystaticReader();
   const identity = await reader.singletons.identity.read();
 
   if (!identity) {
@@ -35,8 +34,21 @@ export async function generateMetadata(): Promise<Metadata> {
     };
   }
 
+  // getEnv may throw if required env vars are missing; catch so metadata
+  // generation still yields reasonable defaults.
+  let metadataBase: URL | undefined;
+  try {
+    const env = getEnv();
+    metadataBase = new URL(env.NEXT_PUBLIC_SITE_URL);
+  } catch (err) {
+    // If env isn't set or invalid, we don't block rendering metadata.
+    // Keep metadataBase undefined so Next uses defaults. Log a warning
+    // to make debugging easier.
+    console.warn("generateMetadata: failed to read env", err);
+  }
+
   return {
-    metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),
+    ...(metadataBase ? { metadataBase } : {}),
     title: {
       default: identity.name,
       template: `%s | ${identity.name}`,

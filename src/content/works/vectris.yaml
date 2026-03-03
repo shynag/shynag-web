@@ -5,9 +5,5 @@ description: >-
   dibangun di atas Tailwind CSS v4. Fokus utama project ini adalah menciptakan
   komponen UI yang reusable, type-safe, dan memiliki aksesibilitas (a11y)
   tinggi.
-stack:
-  - Next.js 16
-  - React 19
-  - Tailwind v4
-  - Radix UI
+
 href: "https://vectris.dev"

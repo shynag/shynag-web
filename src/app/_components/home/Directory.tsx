@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+// (no icon used here)
 
 type DirectoryProps = {
   directory: {
@@ -53,9 +53,6 @@ export function Directory({ directory }: DirectoryProps) {
                 {item.label || item.href}
               </span>
             </div>
-
-            {/* KANAN: Icon Arrow */}
-            <ArrowUpRight className="h-5 w-5 text-muted-foreground/30 group-hover:text-foreground transition-colors" />
           </Link>
         ))}
       </div>

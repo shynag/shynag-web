@@ -1,6 +1,15 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+// (no icon used here)
 
+// Format date input into DD/MM/YYYY. Handles ISO strings, timestamps,
+// and falls back to simple dash -> slash replacement when parsing fails.
+function pad(n: number) {
+  return String(n).padStart(2, "0");
+}
+
+// (Removed unused full-date formatter; keep compact short-format for list view)
+
+// (removed unused short formatter — List now uses formatMonthDay for display)
 export type BlogPost = {
   slug: string;
   entry: {
@@ -22,28 +31,45 @@ export function List({ posts }: ListProps) {
     );
   }
 
-  return (
-    <section className="flex flex-col border-t border-border mt-12">
-      {posts.map((post) => (
-        <Link
-          key={post.slug}
-          href={`/blog/${post.slug}`}
-          className="group flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-12 py-6 border-b border-border hover:bg-muted/30 transition-colors"
-        >
-          {/* KIRI: Tanggal */}
-          <span className="shrink-0 text-sm text-muted-foreground/50 group-hover:text-foreground transition-colors">
-            {post.entry.publishedDate}
-          </span>
+  // Prepare posts: parse dates and sort descending (newest first).
+  const prepared = posts
+    .map((p) => ({
+      ...p,
+      _date: p.entry.publishedDate ? new Date(p.entry.publishedDate) : null,
+    }))
+    .sort((a, b) => {
+      if (a._date && b._date) return b._date.getTime() - a._date.getTime();
+      if (a._date) return -1;
+      if (b._date) return 1;
+      return 0;
+    });
 
-          {/* KANAN: Judul & Arrow */}
-          <div className="flex items-center justify-between w-full">
-            <span className="text-foreground text-lg tracking-tight group-hover:underline underline-offset-4 decoration-border transition-all">
-              {post.entry.title}
-            </span>
-            <ArrowUpRight className="h-4 w-4 text-muted-foreground/20 group-hover:text-foreground transition-colors" />
-          </div>
-        </Link>
-      ))}
-    </section>
+  // Minimalist layout: left = YYYY/MM/DD, right = title.
+  function formatFullDate(input: string | null | undefined): string {
+    if (!input) return "";
+    const d = new Date(input);
+    if (!isNaN(d.getTime())) {
+      return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())}`;
+    }
+    // Fallback: normalize separators to '/'
+    return input.replace(/[-.]/g, "/");
+  }
+
+  return (
+    <div className="mt-12 border-t border-border">
+      {prepared.map((post) => {
+        const dateText = formatFullDate(post.entry.publishedDate);
+        return (
+          <Link
+            key={post.slug}
+            href={`/blog/${post.slug}`}
+            className="group grid grid-cols-[120px_1fr] items-center gap-4 py-4 border-b border-border hover:bg-muted/30 transition-colors"
+          >
+            <div className="text-sm text-muted-foreground/70">{dateText}</div>
+            <div className="text-foreground truncate">{post.entry.title}</div>
+          </Link>
+        );
+      })}
+    </div>
   );
 }

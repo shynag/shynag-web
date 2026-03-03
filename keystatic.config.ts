@@ -118,10 +118,6 @@ export default config({
           label: "Description",
           multiline: true,
         }),
-        stack: fields.array(fields.text({ label: "Tech Name" }), {
-          label: "Tech Stack",
-          itemLabel: (props) => props.value,
-        }),
         href: fields.url({ label: "Link URL" }),
       },
     }),

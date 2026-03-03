@@ -8,7 +8,6 @@ export type WorkItem = {
     title: string;
     year: string;
     description: string;
-    stack: readonly string[];
     href: string | null;
   };
 };
@@ -41,7 +40,7 @@ export function List({ items }: ListProps) {
           <div className="flex flex-col gap-3 max-w-xl">
             {/* Title & Arrow */}
             <div className="flex items-center gap-2">
-              <span className="text-foreground text-lg tracking-tight group-hover:underline underline-offset-4 decoration-border transition-all">
+              <span className="text-foreground group-hover:underline underline-offset-4 decoration-border transition-all">
                 {project.entry.title}
               </span>
               <ArrowUpRight className="h-4 w-4 text-muted-foreground/30 group-hover:text-foreground group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
@@ -51,12 +50,6 @@ export function List({ items }: ListProps) {
             <p className="text-muted-foreground leading-relaxed">
               {project.entry.description}
             </p>
-
-            {/* Tech Stack */}
-            <div className="flex flex-wrap gap-2 pt-1 text-sm text-muted-foreground/60">
-              {/* Join array stack dengan separator dot sesuai desain asli */}
-              {project.entry.stack.join("  ·  ")}
-            </div>
           </div>
 
           {/* KANAN: Tahun (Metadata) */}

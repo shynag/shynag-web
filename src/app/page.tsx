@@ -1,11 +1,10 @@
-import { createReader } from "@keystatic/core/reader";
-import config from "@config";
+import { getKeystaticReader } from "@/lib/keystatic";
 import { Hero } from "@/app/_components/home/Hero";
 import { Directory } from "@/app/_components/home/Directory";
 import { Contact } from "./_components/home/Contact";
 
 export default async function HomePage() {
-  const reader = createReader(process.cwd(), config);
+  const reader = getKeystaticReader();
   const [profileData, identity, directory] = await Promise.all([
     reader.singletons.profile.read(),
     reader.singletons.identity.read(),
