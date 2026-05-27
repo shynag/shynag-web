@@ -34,7 +34,7 @@ export default async function BlogPage() {
   const blogLink = directory?.links.find((link) => link.href === "/blog");
 
   return (
-    <div className="flex flex-col pb-20 pt-8">
+    <div className="flex flex-col pt-8">
       <Header title={blogLink?.label || "Catatan Teknis"} />
       <List posts={sortedPosts} />
     </div>

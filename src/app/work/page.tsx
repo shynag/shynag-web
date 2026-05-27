@@ -31,7 +31,7 @@ export default async function WorkPage() {
 
   return (
     <div className="flex flex-col">
-      <Header title={workLink?.label || "Arsip Proyek"} />
+      <Header title={workLink?.label || "Work"} />
       <List items={sortedWorks} />
     </div>
   );

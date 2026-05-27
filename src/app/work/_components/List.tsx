@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 // Tipe data dari Keystatic
@@ -9,6 +8,7 @@ export type WorkItem = {
     year: string;
     description: string;
     href: string | null;
+    sourceCodeUrl: string | null;
   };
 };
 
@@ -29,27 +29,62 @@ export function List({ items }: ListProps) {
   return (
     <section className="flex flex-col border-t border-border mt-6">
       {items.map((project) => (
-        <Link
+        <div
           key={project.slug}
-          href={project.entry.href || "#"}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group flex flex-col sm:flex-row sm:items-start justify-between py-8 border-b border-border hover:bg-muted/30 transition-colors gap-4 sm:gap-0"
+          className="flex flex-col sm:flex-row sm:items-start justify-between py-8 border-b border-border gap-4 sm:gap-0"
         >
           {/* KIRI: Konten Utama */}
-          <div className="flex flex-col gap-3 max-w-xl">
-            {/* Title & Arrow */}
-            <div className="flex items-center gap-2">
-              <span className="text-foreground group-hover:underline underline-offset-4 decoration-border transition-all">
-                {project.entry.title}
-              </span>
-              <ArrowUpRight className="h-4 w-4 text-muted-foreground/30 group-hover:text-foreground group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
-            </div>
+          <div className="flex flex-col gap-3 max-w-xl flex-1">
+            {/* Title */}
+            <span className="text-foreground">{project.entry.title}</span>
 
             {/* Description */}
             <p className="text-muted-foreground leading-relaxed">
               {project.entry.description}
             </p>
+
+            {/* Links */}
+            <div className="flex flex-row gap-3 mt-2">
+              {project.entry.href ? (
+                <a
+                  href={project.entry.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group/link flex items-center gap-2 text-foreground w-fit"
+                >
+                  <span className="underline underline-offset-4 decoration-border group-hover/link:decoration-foreground transition-all text-sm">
+                    Live
+                  </span>
+                  <ArrowUpRight className="h-4 w-4 text-muted-foreground/40 group-hover/link:text-foreground transition-colors" />
+                </a>
+              ) : (
+                <div className="flex items-center gap-2 w-fit">
+                  <span className="underline underline-offset-4 decoration-border text-sm text-muted-foreground/40">
+                    Live
+                  </span>
+                </div>
+              )}
+
+              {project.entry.sourceCodeUrl ? (
+                <a
+                  href={project.entry.sourceCodeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group/link flex items-center gap-2 text-foreground w-fit"
+                >
+                  <span className="underline underline-offset-4 decoration-border group-hover/link:decoration-foreground transition-all text-sm">
+                    Source Code
+                  </span>
+                  <ArrowUpRight className="h-4 w-4 text-muted-foreground/40 group-hover/link:text-foreground transition-colors" />
+                </a>
+              ) : (
+                <div className="flex items-center gap-2 w-fit">
+                  <span className="underline underline-offset-4 decoration-border text-sm text-muted-foreground/40">
+                    Source Code
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* KANAN: Tahun (Metadata) */}
@@ -58,7 +93,7 @@ export function List({ items }: ListProps) {
               {project.entry.year}
             </span>
           </div>
-        </Link>
+        </div>
       ))}
     </section>
   );

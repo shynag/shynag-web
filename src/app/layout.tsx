@@ -71,7 +71,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${fontSans.variable} ${fontHeading.variable} ${fontItalic.variable} ${fontSans.className}`}
+        className={`${fontSans.variable} ${fontHeading.variable} ${fontItalic.variable} ${fontSans.className} flex flex-col min-h-screen`}
       >
         <LayoutProvider>{children}</LayoutProvider>
       </body>

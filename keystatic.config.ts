@@ -118,7 +118,8 @@ export default config({
           label: "Description",
           multiline: true,
         }),
-        href: fields.url({ label: "Link URL" }),
+        href: fields.url({ label: "Live Link (Optional)" }),
+        sourceCodeUrl: fields.url({ label: "Source Code Link (Optional)" }),
       },
     }),
 
