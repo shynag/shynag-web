@@ -29,12 +29,23 @@ export default async function ExperiencePage() {
     return dateB - dateA;
   });
 
+  // Resolve description promises for each experience
+  const resolvedExperiences = await Promise.all(
+    sortedExperiences.map(async (experience) => ({
+      ...experience,
+      entry: {
+        ...experience.entry,
+        description: await experience.entry.description(),
+      },
+    }))
+  );
+
   const experienceLink = directory?.links.find((link) => link.href === "/experience");
 
   return (
     <div className="flex flex-col">
       <Header title={experienceLink?.label || "Experience"} />
-      <List items={sortedExperiences} />
+      <List items={resolvedExperiences} />
     </div>
   );
 }

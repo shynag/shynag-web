@@ -19,10 +19,21 @@ const getValidDocument = (doc: DocumentRendererProps['document'] | null | undefi
 };
 
 
-export function ExperiencePreview({ items, showAllCta }: ExperiencePreviewProps) {
+export async function ExperiencePreview({ items, showAllCta }: ExperiencePreviewProps) { // Made async
   if (items.length === 0 && !showAllCta) {
     return null; // Don't render anything if no items and no CTA needed
   }
+
+  // Resolve description promises for each experience
+  const resolvedItems = await Promise.all(
+    items.map(async (experience) => ({
+      ...experience,
+      entry: {
+        ...experience.entry,
+        description: await experience.entry.description(),
+      },
+    }))
+  );
 
   // Helper function to format date
   const formatDate = (dateString: string) => {
@@ -34,7 +45,7 @@ export function ExperiencePreview({ items, showAllCta }: ExperiencePreviewProps)
     <section className="flex flex-col gap-6">
       <h2 className="heading-style">Work Experience</h2>
       <div className="flex flex-col border-t border-border">
-        {items.map((experience) => (
+        {resolvedItems.map((experience) => ( // Use resolvedItems
           <div
             key={experience.slug}
             className="flex flex-col sm:flex-row sm:items-start justify-between py-8 border-b border-border gap-4 sm:gap-0"
