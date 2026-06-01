@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ExperienceItem } from "@/app/experience/_components/List"; // Re-use the type definition
-import { DocumentRenderer, Document } from "@keystatic/core/renderer"; // Import Document here
+import { DocumentRenderer, type DocumentRendererProps } from "@keystatic/core/renderer"; // Correct import for Document type
 
 interface ExperiencePreviewProps {
   items: ExperienceItem[];
@@ -8,7 +8,7 @@ interface ExperiencePreviewProps {
 }
 
 // Helper function to ensure DocumentRenderer always receives a valid Document object
-const getValidDocument = (doc: Document | null | undefined): Document => {
+const getValidDocument = (doc: DocumentRendererProps['document'] | null | undefined): DocumentRendererProps['document'] => {
   // A Keystatic Document is typically an array of nodes.
   // If doc is null, undefined, or not an array, return an empty document.
   if (doc && Array.isArray(doc)) {

@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { DocumentRenderer, Document } from "@keystatic/core/renderer";
+import { DocumentRenderer, type DocumentRendererProps } from "@keystatic/core/renderer"; // Correct import for Document type
 
 // Helper function to ensure DocumentRenderer always receives a valid Document object
-const getValidDocument = (doc: Document | null | undefined): Document => {
+const getValidDocument = (doc: DocumentRendererProps['document'] | null | undefined): DocumentRendererProps['document'] => {
   // A Keystatic Document is typically an array of nodes.
   // If doc is null, undefined, or not an array, return an empty document.
   if (doc && Array.isArray(doc)) {
@@ -21,7 +21,7 @@ export type ExperienceItem = {
     location: string;
     startDate: string;
     endDate: string | null;
-    description: Document; // Keystatic document field
+    description: DocumentRendererProps['document']; // Keystatic document field
     url: string | null;
   };
 };
