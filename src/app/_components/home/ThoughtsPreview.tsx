@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BlogPost } from "@/app/thoughts/_components/List"; // Re-use the type definition
+import { ThoughtPost } from "@/app/thoughts/_components/List"; // Re-use the type definition
 // Removed import { Button } from "@/components/ui/button";
 
 // Format date input into DD/MM/YYYY. Handles ISO strings, timestamps,
@@ -19,7 +19,7 @@ function formatFullDate(input: string | null | undefined): string {
 }
 
 interface ThoughtsPreviewProps {
-  posts: BlogPost[];
+  posts: ThoughtPost[];
   showAllCta: boolean;
 }
 
