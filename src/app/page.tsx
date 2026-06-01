@@ -62,6 +62,17 @@ export default async function HomePage() {
   const experiencesForPreview = sortedExperiences.slice(0, 3);
   const showAllExperiencesCta = allExperiences.length > 3;
 
+  // Resolve description promises for each experience in the preview
+  const resolvedExperiencesForPreview = await Promise.all(
+    experiencesForPreview.map(async (experience) => ({
+      ...experience,
+      entry: {
+        ...experience.entry,
+        description: await experience.entry.description(),
+      },
+    }))
+  );
+
   return (
     <div className="flex flex-col gap-24">
       <Hero
@@ -73,7 +84,7 @@ export default async function HomePage() {
         identity={identity}
       />
       <ExperiencePreview
-        items={experiencesForPreview}
+        items={resolvedExperiencesForPreview}
         showAllCta={showAllExperiencesCta}
       />
       <ProjectsPreview items={projectsForPreview} showAllCta={showAllProjectsCta} />

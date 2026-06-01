@@ -19,21 +19,19 @@ const getValidDocument = (doc: DocumentRendererProps['document'] | null | undefi
 };
 
 
-export async function ExperiencePreview({ items, showAllCta }: ExperiencePreviewProps) { // Made async
+export function ExperiencePreview({ items, showAllCta }: ExperiencePreviewProps) { // Removed async
   if (items.length === 0 && !showAllCta) {
     return null; // Don't render anything if no items and no CTA needed
   }
 
-  // Resolve description promises for each experience
-  const resolvedItems = await Promise.all(
-    items.map(async (experience) => ({
-      ...experience,
-      entry: {
-        ...experience.entry,
-        description: await experience.entry.description(),
-      },
-    }))
-  );
+  // No need to resolve description promises here, as they are already resolved in page.tsx
+  const resolvedItems = items.map((experience) => ({ // Removed async from map callback
+    ...experience,
+    entry: {
+      ...experience.entry,
+      description: experience.entry.description, // No await or function call needed
+    },
+  }));
 
   // Helper function to format date
   const formatDate = (dateString: string) => {
