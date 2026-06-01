@@ -1,8 +1,8 @@
 import { createReader } from "@keystatic/core/reader";
 import config from "@config";
 import { notFound } from "next/navigation";
-import { Header } from "./_components/detail/Header";
-import { Content } from "./_components/detail/Content";
+import { Header } from "../_components/detail/Header";
+import { Content } from "../_components/detail/Content";
 
 export async function generateStaticParams() {
   const reader = createReader(process.cwd(), config);
