@@ -107,9 +107,9 @@ export default config({
     }),
   },
   collections: {
-    works: collection({
-      label: "Works",
-      path: "src/content/works/*",
+    projects: collection({
+      label: "Projects",
+      path: "src/content/projects/*",
       slugField: "title",
       schema: {
         title: fields.slug({ name: { label: "Project Name" } }),
@@ -123,10 +123,10 @@ export default config({
       },
     }),
 
-    posts: collection({
-      label: "Blog Posts",
+    thoughts: collection({
+      label: "Thoughts",
       slugField: "title",
-      path: "src/content/posts/*",
+      path: "src/content/thoughts/*",
       format: { contentField: "content" }, // Menggunakan format MDX/Markdoc
       schema: {
         title: fields.slug({ name: { label: "Title" } }),
@@ -145,6 +145,25 @@ export default config({
           },
           tables: true,
         }),
+      },
+    }),
+
+    experiences: collection({
+      label: "Work Experiences",
+      slugField: "title",
+      path: "src/content/experiences/*",
+      schema: {
+        title: fields.slug({ name: { label: "Job Title" } }),
+        company: fields.text({ label: "Company" }),
+        location: fields.text({ label: "Location" }),
+        startDate: fields.date({ label: "Start Date", validation: { isRequired: true } }),
+        endDate: fields.date({ label: "End Date (Optional)" }),
+        description: fields.document({
+          label: "Description",
+          formatting: true,
+          links: true,
+        }),
+        url: fields.url({ label: "Company Website (Optional)" }),
       },
     }),
   },

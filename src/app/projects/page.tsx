@@ -7,32 +7,32 @@ import { Metadata } from "next";
 export async function generateMetadata(): Promise<Metadata> {
   const reader = createReader(process.cwd(), config);
   const directory = await reader.singletons.directory.read();
-  const workLink = directory?.links.find((link) => link.href === "/work");
+  const projectLink = directory?.links.find((link) => link.href === "/projects");
 
   return {
-    title: workLink?.label || "Works",
+    title: projectLink?.label || "Projects",
     description: "Selected projects and experiments.",
   };
 }
 
-export default async function WorkPage() {
+export default async function ProjectsPage() {
   const reader = createReader(process.cwd(), config);
-  const [works, directory] = await Promise.all([
-    reader.collections.works.all(),
+  const [projects, directory] = await Promise.all([
+    reader.collections.projects.all(),
     reader.singletons.directory.read(),
   ]);
 
   // Sort berdasarkan tahun terbaru (Descending)
-  const sortedWorks = works.sort((a, b) => {
+  const sortedProjects = projects.sort((a, b) => {
     return Number(b.entry.year) - Number(a.entry.year);
   });
 
-  const workLink = directory?.links.find((link) => link.href === "/work");
+  const projectLink = directory?.links.find((link) => link.href === "/projects");
 
   return (
     <div className="flex flex-col">
-      <Header title={workLink?.label || "Work"} />
-      <List items={sortedWorks} />
+      <Header title={projectLink?.label || "Projects"} />
+      <List items={sortedProjects} />
     </div>
   );
 }

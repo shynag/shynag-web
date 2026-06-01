@@ -1,13 +1,13 @@
 import { createReader } from "@keystatic/core/reader";
 import config from "@config";
 import { notFound } from "next/navigation";
-import { Header } from "@/app/blog/_components/detail/Header";
-import { Content } from "@/app/blog/_components/detail/Content";
+import { Header } from "./_components/detail/Header";
+import { Content } from "./_components/detail/Content";
 
 export async function generateStaticParams() {
   const reader = createReader(process.cwd(), config);
-  const posts = await reader.collections.posts.list();
-  return posts.map((slug) => ({ slug }));
+  const thoughts = await reader.collections.thoughts.list();
+  return thoughts.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -17,26 +17,26 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const reader = createReader(process.cwd(), config);
-  const post = await reader.collections.posts.read(slug);
+  const thought = await reader.collections.thoughts.read(slug);
 
-  if (!post) return { title: "Not Found" };
+  if (!thought) return { title: "Not Found" };
 
   return {
-    title: post.title,
-    description: `Published on ${post.publishedDate}`,
+    title: thought.title,
+    description: `Published on ${thought.publishedDate}`,
   };
 }
 
-export default async function BlogPostPage({
+export default async function ThoughtPostPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
   const reader = createReader(process.cwd(), config);
-  const post = await reader.collections.posts.read(slug);
+  const thought = await reader.collections.thoughts.read(slug);
 
-  if (!post) {
+  if (!thought) {
     notFound();
   }
 
@@ -48,12 +48,12 @@ export default async function BlogPostPage({
   return (
     <div className="mx-auto max-w-2xl pt-8">
       <Header
-        title={post.title}
-        date={post.publishedDate || ""}
+        title={thought.title}
+        date={thought.publishedDate || ""}
         readTime={readTime}
       />
       {/* Passing document JSON ke komponen Content */}
-      <Content document={await post.content()} />
+      <Content document={await thought.content()} />
     </div>
   );
 }

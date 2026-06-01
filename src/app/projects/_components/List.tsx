@@ -1,7 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 
 // Tipe data dari Keystatic
-export type WorkItem = {
+export type ProjectItem = {
   slug: string;
   entry: {
     title: string;
@@ -13,7 +13,7 @@ export type WorkItem = {
 };
 
 interface ListProps {
-  items: WorkItem[];
+  items: ProjectItem[];
 }
 
 export function List({ items }: ListProps) {
@@ -58,12 +58,12 @@ export function List({ items }: ListProps) {
                   <ArrowUpRight className="h-4 w-4 text-muted-foreground/40 group-hover/link:text-foreground transition-colors" />
                 </a>
               ) : (
-                <div className="flex items-center gap-2 w-fit">
-                  <span className="underline underline-offset-4 decoration-border text-sm text-muted-foreground/40">
-                    Live
-                  </span>
-                </div>
-              )}
+                  <div className="flex items-center gap-2 w-fit">
+                    <span className="underline underline-offset-4 decoration-border text-sm text-muted-foreground/40">
+                      Live
+                    </span>
+                  </div>
+                )}
 
               {project.entry.sourceCodeUrl ? (
                 <a
@@ -78,12 +78,12 @@ export function List({ items }: ListProps) {
                   <ArrowUpRight className="h-4 w-4 text-muted-foreground/40 group-hover/link:text-foreground transition-colors" />
                 </a>
               ) : (
-                <div className="flex items-center gap-2 w-fit">
-                  <span className="underline underline-offset-4 decoration-border text-sm text-muted-foreground/40">
-                    Source Code
-                  </span>
-                </div>
-              )}
+                  <div className="flex items-center gap-2 w-fit">
+                    <span className="underline underline-offset-4 decoration-border text-sm text-muted-foreground/40">
+                      Source Code
+                    </span>
+                  </div>
+                )}
             </div>
           </div>
 
@@ -98,3 +98,4 @@ export function List({ items }: ListProps) {
     </section>
   );
 }
+

@@ -10,7 +10,7 @@ function pad(n: number) {
 // (Removed unused full-date formatter; keep compact short-format for list view)
 
 // (removed unused short formatter — List now uses formatMonthDay for display)
-export type BlogPost = {
+export type ThoughtPost = {
   slug: string;
   entry: {
     title: string;
@@ -19,14 +19,14 @@ export type BlogPost = {
 };
 
 interface ListProps {
-  posts: BlogPost[];
+  posts: ThoughtPost[];
 }
 
 export function List({ posts }: ListProps) {
   if (posts.length === 0) {
     return (
       <div className="py-12 text-center text-muted-foreground border-t border-border mt-12">
-        Belum ada tulisan yang dipublikasikan.
+        Belum ada pemikiran yang dipublikasikan.
       </div>
     );
   }
@@ -62,7 +62,7 @@ export function List({ posts }: ListProps) {
         return (
           <Link
             key={post.slug}
-            href={`/blog/${post.slug}`}
+            href={`/thoughts/${post.slug}`}
             className="group grid grid-cols-[120px_1fr] items-center gap-4 py-4 border-b border-border hover:bg-muted/30 transition-colors"
           >
             <div className="text-sm text-muted-foreground/70">{dateText}</div>
