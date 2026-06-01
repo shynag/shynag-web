@@ -21,7 +21,7 @@ export type ExperienceItem = {
     location: string;
     startDate: string;
     endDate: string | null;
-    description: () => Promise<DocumentRendererProps['document']>; // Keystatic document field (lazy-loaded)
+    description: DocumentRendererProps['document']; // Keystatic document field (already resolved)
     url: string | null;
   };
 };
@@ -81,7 +81,7 @@ export function List({ items }: ListProps) {
             <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed">
               {/* We need to resolve the promise before passing to DocumentRenderer */}
               {/* This component is not async, so we'll resolve it in the parent page/preview component */}
-              <DocumentRenderer document={getValidDocument(experience.entry.description as any)} />
+              <DocumentRenderer document={getValidDocument(experience.entry.description)} />
             </div>
           </div>
         </div>
