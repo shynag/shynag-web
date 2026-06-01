@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { WorkItem } from "@/app/projects/_components/List"; // Re-use the type definition
+import { ProjectItem } from "@/app/projects/_components/List"; // Re-use the type definition
 // Removed import { Button } from "@/components/ui/button";
 
 interface ProjectsPreviewProps {
-  items: WorkItem[];
+  items: ProjectItem[];
   showAllCta: boolean;
 }
 
