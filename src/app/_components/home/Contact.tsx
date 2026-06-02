@@ -11,9 +11,9 @@ export function Contact() {
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
       {/* KOLOM 1: KONTAK */}
       <div className="sm:col-span-2 flex flex-col gap-4">
-        <h2 className="text-muted-foreground">Kontak</h2>
+        <h2 className="text-muted-foreground">Contact</h2>
         <p className="text-foreground leading-relaxed">
-          Sapa saya melalui{" "}
+          Reach me at{" "}
           <Link
             href="mailto:iluviums@gmail.com"
             className="underline underline-offset-4 decoration-border hover:decoration-foreground hover:text-muted-foreground transition-all"
@@ -26,7 +26,7 @@ export function Contact() {
 
       {/* KOLOM 2: TAUTAN */}
       <div className="flex flex-col gap-4">
-        <h2 className="text-muted-foreground">Tautan</h2>
+        <h2 className="text-muted-foreground">Connect</h2>
         <div className="flex flex-row gap-3">
           {socials.map((item) => (
             <Link
