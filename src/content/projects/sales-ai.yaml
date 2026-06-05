@@ -3,5 +3,5 @@ year: '2026'
 description: >-
   An AI-powered web app that generates high-converting sales pages in real-time
   using Google Gemini.
-href: sales-ai-peach-pi.vercel.app
+href: https://sales-ai-peach-pi.vercel.app
 sourceCodeUrl: https://github.com/shynag/sales-ai
