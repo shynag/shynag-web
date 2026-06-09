@@ -16,6 +16,13 @@ interface ListProps {
   items: ProjectItem[];
 }
 
+function getAbsoluteUrl(url: string) {
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+  return `https://${url}`;
+}
+
 export function List({ items }: ListProps) {
   // Fallback jika belum ada data
   if (items.length === 0) {
@@ -47,7 +54,7 @@ export function List({ items }: ListProps) {
             <div className="flex flex-row gap-3 mt-2">
               {project.entry.href ? (
                 <a
-                  href={project.entry.href}
+                  href={getAbsoluteUrl(project.entry.href)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group/link flex items-center gap-2 text-foreground w-fit"
@@ -67,7 +74,7 @@ export function List({ items }: ListProps) {
 
               {project.entry.sourceCodeUrl ? (
                 <a
-                  href={project.entry.sourceCodeUrl}
+                  href={getAbsoluteUrl(project.entry.sourceCodeUrl)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group/link flex items-center gap-2 text-foreground w-fit"

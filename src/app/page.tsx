@@ -70,7 +70,7 @@ export default async function HomePage() {
         ...experience.entry,
         description: await experience.entry.description(),
       },
-    }))
+    })),
   );
 
   return (
@@ -87,8 +87,14 @@ export default async function HomePage() {
         items={resolvedExperiencesForPreview}
         showAllCta={showAllExperiencesCta}
       />
-      <ProjectsPreview items={projectsForPreview} showAllCta={showAllProjectsCta} />
-      <ThoughtsPreview posts={thoughtsForPreview} showAllCta={showAllThoughtsCta} />
+      <ProjectsPreview
+        items={projectsForPreview}
+        showAllCta={showAllProjectsCta}
+      />
+      <ThoughtsPreview
+        posts={thoughtsForPreview}
+        showAllCta={showAllThoughtsCta}
+      />
       <Contact />
     </div>
   );

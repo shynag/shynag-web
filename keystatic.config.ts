@@ -11,7 +11,7 @@ export default config({
           kind: "local",
         },
   ui: {
-    brand: { name: "Vectris Studio" },
+    brand: { name: "Sheptiyan Agung Rizmawan" },
   },
   singletons: {
     identity: singleton({
@@ -120,6 +120,10 @@ export default config({
         }),
         href: fields.url({ label: "Live Link (Optional)" }),
         sourceCodeUrl: fields.url({ label: "Source Code Link (Optional)" }),
+        experience: fields.relationship({
+          label: "Related Experience (Optional)",
+          collection: "experiences",
+        }),
       },
     }),
 
@@ -156,7 +160,10 @@ export default config({
         title: fields.slug({ name: { label: "Job Title" } }),
         company: fields.text({ label: "Company" }),
         location: fields.text({ label: "Location" }),
-        startDate: fields.date({ label: "Start Date", validation: { isRequired: true } }),
+        startDate: fields.date({
+          label: "Start Date",
+          validation: { isRequired: true },
+        }),
         endDate: fields.date({ label: "End Date (Optional)" }),
         description: fields.document({
           label: "Description",
