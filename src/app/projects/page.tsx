@@ -27,12 +27,18 @@ export default async function ProjectsPage() {
     allExperiences.map((exp) => [exp.slug, exp.entry]),
   );
 
-  const projectsWithResolvedExperience: ProjectItem[] = allProjects.map((project) => {
+  type UnresolvedProjectItem = Omit<ProjectItem, 'entry'> & {
+    entry: Omit<ProjectItem['entry'], 'experience'> & {
+      experience?: string | null;
+    };
+  };
+
+  const projectsWithResolvedExperience: ProjectItem[] = (allProjects as UnresolvedProjectItem[]).map((project) => {
     if (project.entry.experience) {
       const resolvedExperience = experiencesMap.get(project.entry.experience);
       // Ensure the resolved experience has the correct type for 'title'
       const typedResolvedExperience = resolvedExperience
-        ? { 
+        ? {
             ...resolvedExperience,
             title: resolvedExperience.title as { name: string; slug: string },
           }
@@ -48,7 +54,7 @@ export default async function ProjectsPage() {
         },
       };
     }
-    return project;
+    return project as ProjectItem; // Cast to ProjectItem if no experience
   });
 
   // Sort berdasarkan tahun terbaru (Descending)
@@ -65,3 +71,4 @@ export default async function ProjectsPage() {
     </div>
   );
 }
+

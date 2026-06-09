@@ -16,7 +16,7 @@ export default async function HomePage() {
     await Promise.all([
       reader.singletons.profile.read(),
       reader.singletons.identity.read(),
-      keystaticReader.collections.projects.all(),
+      keystaticReader.collections.projects.all() as Promise<Array<Omit<ProjectItem, 'entry'> & { entry: Omit<ProjectItem['entry'], 'experience'> & { experience?: string | null; }; }>>,
       keystaticReader.collections.thoughts.all(),
       keystaticReader.collections.experiences.all(),
     ]);
