@@ -6,6 +6,7 @@ import { ThoughtsPreview } from "./_components/home/ThoughtsPreview";
 import { ExperiencePreview } from "./_components/home/ExperiencePreview"; // New import
 import { createReader } from "@keystatic/core/reader";
 import config from "@config";
+import { ProjectItem } from "@/app/projects/_components/List"; // Import ProjectItem
 
 export default async function HomePage() {
   const reader = getKeystaticReader();
@@ -17,8 +18,42 @@ export default async function HomePage() {
       reader.singletons.identity.read(),
       keystaticReader.collections.projects.all(),
       keystaticReader.collections.thoughts.all(),
-      keystaticReader.collections.experiences.all(), // New data fetch
+      keystaticReader.collections.experiences.all(),
     ]);
+
+  const experiencesMap = new Map(
+    allExperiences.map((exp) => [exp.slug, exp.entry]),
+  );
+
+  type UnresolvedProjectItem = Omit<ProjectItem, 'entry'> & {
+    entry: Omit<ProjectItem['entry'], 'experience'> & {
+      experience?: string | null;
+    };
+  };
+
+  const projectsWithResolvedExperience: ProjectItem[] = (allProjects as UnresolvedProjectItem[]).map((project) => {
+    if (project.entry.experience) {
+      const resolvedExperience = experiencesMap.get(project.entry.experience);
+      // Ensure the resolved experience has the correct type for 'title'
+      const typedResolvedExperience = resolvedExperience
+        ? {
+            ...resolvedExperience,
+            title: resolvedExperience.title as { name: string; slug: string },
+          }
+        : null;
+
+      return {
+        ...project,
+        entry: {
+          ...project.entry,
+          experience: typedResolvedExperience
+            ? { slug: project.entry.experience, entry: typedResolvedExperience }
+            : null,
+        },
+      };
+    }
+    return project as ProjectItem; // Cast to ProjectItem if no experience
+  });
 
   // Resolve the bio content if it's a function (lazy-loaded)
   const bioContent =
@@ -38,7 +73,7 @@ export default async function HomePage() {
     : null;
 
   // Sort projects by year (newest first) and get the first 3 for preview
-  const sortedProjects = allProjects.sort((a, b) => {
+  const sortedProjects = projectsWithResolvedExperience.sort((a, b) => {
     return Number(b.entry.year) - Number(a.entry.year);
   });
   const projectsForPreview = sortedProjects.slice(0, 3);

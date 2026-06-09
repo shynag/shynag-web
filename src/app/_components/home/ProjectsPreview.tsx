@@ -33,6 +33,12 @@ export function ProjectsPreview({ items, showAllCta }: ProjectsPreviewProps) {
             <div className="flex flex-col gap-3 max-w-xl flex-1">
               {/* Title */}
               <span className="text-foreground">{project.entry.title}</span>
+              {project.entry.experience && (
+                <span className="text-muted-foreground text-sm">
+                  {project.entry.experience.entry.title.name} at{" "}
+                  {project.entry.experience.entry.company}
+                </span>
+              )}
 
               {/* Description */}
               <p className="text-muted-foreground leading-relaxed">
