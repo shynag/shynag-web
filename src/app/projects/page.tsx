@@ -40,7 +40,8 @@ export default async function ProjectsPage() {
       const typedResolvedExperience = resolvedExperience
         ? {
             ...resolvedExperience,
-            title: resolvedExperience.title as { name: string; slug: string },
+            title: resolvedExperience.title as string, // Cast to string
+            company: (resolvedExperience.company || null) as string | null, // Ensure company is string or null
           }
         : null;
 
