@@ -154,11 +154,11 @@ export default config({
 
     experiences: collection({
       label: "Work Experiences",
-      slugField: "company", // Changed slugField to 'company'
+      slugField: "company", // Keep slugField as 'company'
       path: "src/content/experiences/*",
       schema: {
-        title: fields.slug({ name: { label: "Job Title" } }),
-        company: fields.slug({ name: { label: "Company" } }), // Changed 'company' to fields.slug
+        title: fields.text({ label: "Job Title" }), // Change 'title' to fields.text
+        company: fields.text({ label: "Company" }), // Change 'company' to fields.text
         location: fields.text({ label: "Location" }),
         startDate: fields.date({
           label: "Start Date",

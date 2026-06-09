@@ -12,8 +12,8 @@ export type ProjectItem = {
     experience?: { // Make it optional as the relationship is optional
       slug: string;
       entry: {
-        title: { name: string; slug: string; }; // Job Title
-        company: string; // Company Name
+        title: string; // Job Title
+        company: string | null; // Company Name
       };
     } | null;
   };
@@ -53,7 +53,7 @@ export function List({ items }: ListProps) {
             <span className="text-foreground">{project.entry.title}</span>
             {project.entry.experience && (
               <span className="text-muted-foreground text-sm">
-                {project.entry.experience.entry.title.name} at{" "}
+                {project.entry.experience.entry.title} at{" "}
                 {project.entry.experience.entry.company}
               </span>
             )}

@@ -67,7 +67,7 @@ export function ExperiencePreview({
               <div className="flex flex-col gap-3 max-w-xl flex-1">
                 {/* Title & Company */}
                 <h3>
-                  {experience.entry.title.name} at{" "}
+                  {experience.entry.title} at{" "}
                   {experience.entry.url ? (
                     <a
                       href={experience.entry.url}

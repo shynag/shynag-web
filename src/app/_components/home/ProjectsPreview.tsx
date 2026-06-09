@@ -35,7 +35,7 @@ export function ProjectsPreview({ items, showAllCta }: ProjectsPreviewProps) {
               <span className="text-foreground">{project.entry.title}</span>
               {project.entry.experience && (
                 <span className="text-muted-foreground text-sm">
-                  {project.entry.experience.entry.title.name} at{" "}
+                  {project.entry.experience.entry.title} at{" "}
                   {project.entry.experience.entry.company}
                 </span>
               )}

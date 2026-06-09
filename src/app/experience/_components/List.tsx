@@ -16,8 +16,8 @@ const getValidDocument = (doc: DocumentRendererProps['document'] | null | undefi
 export type ExperienceItem = {
   slug: string;
   entry: {
-    title: { name: string; slug: string; }; // Job Title
-    company: string;
+    title: string; // Job Title
+    company: string | null; // Company Name
     location: string;
     startDate: string;
     endDate: string | null;
@@ -56,7 +56,7 @@ export function List({ items }: ListProps) {
           <div className="flex flex-col gap-3 max-w-xl flex-1">
             {/* Title & Company */}
             <h3 className="text-lg font-semibold text-foreground">
-              {experience.entry.title.name} at{" "}
+              {experience.entry.title} at{" "}
               {experience.entry.url ? (
                 <a
                   href={experience.entry.url}
