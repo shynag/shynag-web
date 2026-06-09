@@ -38,8 +38,8 @@ export default async function HomePage() {
       const typedResolvedExperience = resolvedExperience
         ? {
             ...resolvedExperience,
-            title: resolvedExperience.title as string, // Cast to string
-            company: resolvedExperience.company as string | null, // Cast to string | null
+            title: resolvedExperience.title as string,
+            company: (resolvedExperience.company || null) as string | null, // Ensure company is string or null
           }
         : null;
 
