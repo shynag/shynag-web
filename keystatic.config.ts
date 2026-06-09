@@ -157,8 +157,8 @@ export default config({
       slugField: "company", // Keep slugField as 'company'
       path: "src/content/experiences/*",
       schema: {
-        title: fields.text({ label: "Job Title" }), // Change 'title' to fields.text
-        company: fields.text({ label: "Company" }), // Change 'company' to fields.text
+        title: fields.text({ label: "Job Title" }), // Keep 'title' as fields.text
+        company: fields.slug({ name: { label: "Company" } }), // Change 'company' back to fields.slug
         location: fields.text({ label: "Location" }),
         startDate: fields.date({
           label: "Start Date",
