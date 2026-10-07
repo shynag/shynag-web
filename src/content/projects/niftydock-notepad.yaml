@@ -1,0 +1,7 @@
+title: NiftyDock - Notepad
+year: '2026'
+description: >-
+  A simple, shareable online notepad with rich text editing, Markdown support,
+  autosave, and real-time sync across devices.
+href: https://niftydock-notepad.vercel.app/
+sourceCodeUrl: https://github.com/shynag/niftydock-notepad
