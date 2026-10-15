@@ -9,7 +9,7 @@ export function Contact() {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
-      {/* KOLOM 1: KONTAK */}
+      {/* Contact column */}
       <div className="sm:col-span-2 flex flex-col gap-4">
         <h2 className="text-muted-foreground">Contact</h2>
         <p className="text-foreground leading-relaxed">
@@ -24,7 +24,7 @@ export function Contact() {
         </p>
       </div>
 
-      {/* KOLOM 2: TAUTAN */}
+      {/* Social links column */}
       <div className="flex flex-col gap-4">
         <h2 className="text-muted-foreground">Connect</h2>
         <div className="flex flex-row gap-3">

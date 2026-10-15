@@ -5,15 +5,13 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  // BASE STYLES:
-  // 1. Hapus 'text-sm' dari sini.
-  // 2. Tambahkan 'tracking-tight' agar sesuai dengan font Satoshi.
+  // Base styles: use tight letter spacing to match the Satoshi font.
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium uppercase transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive tracking-tight",
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm", // Tambah shadow-sm
+          "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm",
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
@@ -25,18 +23,14 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        // SM: Kecil, padat. Cocok untuk tabel/filter.
+        // Small and compact; suitable for tables and filters.
         sm: "h-8 px-3 text-xs",
 
-        // DEFAULT: Standar Industri.
-        // h-9 (36px) atau h-10 (40px) dengan text-sm (14px).
-        // Ini ukuran paling 'aman' dan tidak mendominasi.
+        // Default size: 36-40px high with 14px text; clear without dominating.
         default: "h-10 px-5 py-2 text-sm",
 
-        // LG: Untuk Hero Section.
-        // Tinggi h-12 (48px) sudah cukup besar untuk jari jempol (mobile friendly).
-        // Font CUKUP text-sm (14px) atau text-base (16px).
-        // Jangan 18px, nanti norak.
+        // Large size for hero sections. The 48px height is comfortable on mobile.
+        // Use 14-16px text to keep the button proportional.
         lg: "h-12 px-8 text-sm md:text-base font-medium",
 
         // ICON SIZES

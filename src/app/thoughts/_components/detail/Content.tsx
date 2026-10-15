@@ -28,7 +28,7 @@ export function Content({ document }: ContentProps) {
         renderers={{
           block: {
             // Panggil Server Component CodeBlock
-            // Karena ini di dalam Server Component parent, kita bisa pass component async langsung
+            // The parent is a Server Component, so async components can be passed directly.
             code: ({ children, language }) => (
               <CodeBlock language={language}>{children}</CodeBlock>
             ),
@@ -58,7 +58,7 @@ export function Content({ document }: ContentProps) {
             divider: () => <hr className="my-12 border-border" />,
           },
           inline: {
-            // Fix inline code juga agar tidak bold dan lebih rapi
+            // Keep inline code at normal weight for a cleaner appearance.
             code: ({ children }) => (
               <code className="relative rounded bg-muted px-[0.4rem] py-[0.2rem] font-mono text-[0.9em] font-normal text-foreground border border-border/50">
                 {children}

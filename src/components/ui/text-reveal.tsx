@@ -13,13 +13,13 @@ import { cn } from "@/lib/utils";
 // 1. Tambahkan prop 'as' ke interface
 export interface TextRevealProps extends ComponentPropsWithoutRef<"div"> {
   children: string;
-  as?: ElementType; // Bisa diisi "h1", "h2", "p", "div", dll.
+  as?: ElementType; // Accepts elements such as "h1", "h2", "p", or "div".
 }
 
 export const TextReveal: FC<TextRevealProps> = ({
   children,
   className,
-  as: Tag = "p", // Default-nya adalah 'p' jika tidak diisi
+  as: Tag = "p", // Defaults to "p".
 }) => {
   const targetRef = useRef<HTMLDivElement | null>(null);
 
@@ -35,18 +35,14 @@ export const TextReveal: FC<TextRevealProps> = ({
   const words = children.split(" ");
 
   return (
-    // Wrapper luar (Track Scroll) tidak perlu className typography
-    // Cukup logic layout (h-[300vh]) saja.
+    // The outer scroll-track wrapper only needs layout styles.
     <div ref={targetRef} className="relative z-0 h-[300vh]">
       <div
         className={
           "sticky top-0 mx-auto flex h-screen items-center bg-transparent"
         }
       >
-        {/* Hapus wrapper 'max-w-2xl' agar width-nya diatur lewat className dari luar */}
-
-        {/* 2. Gunakan 'Tag' dinamis di sini */}
-        {/* className dari props ditempel di sini agar typography masuk ke element text */}
+        {/* Use the dynamic tag and apply the provided typography classes to the text element. */}
         <Tag className={cn("flex flex-wrap text-foreground", className)}>
           {words.map((word, i) => {
             const gradientLength = 5;

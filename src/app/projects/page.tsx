@@ -1,11 +1,14 @@
-import { createReader } from "@keystatic/core/reader";
-import config from "@config";
+import { getKeystaticReader } from "@/lib/keystatic";
 import { Header } from "./_components/Header";
-import { List, ProjectItem } from "./_components/List"; // Import ProjectItem
-import { Metadata } from "next";
+import { List } from "./_components/List";
+import type { Metadata } from "next";
+import {
+  resolveProjectExperiences,
+  sortProjectsByYear,
+} from "@/lib/keystatic-content";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const reader = createReader(process.cwd(), config);
+  const reader = getKeystaticReader();
   const directory = await reader.singletons.directory.read();
   const projectLink = directory?.links.find((link) => link.href === "/projects");
 
@@ -16,52 +19,18 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ProjectsPage() {
-  const reader = createReader(process.cwd(), config);
+  const reader = getKeystaticReader();
   const [allProjects, directory, allExperiences] = await Promise.all([
     reader.collections.projects.all(),
     reader.singletons.directory.read(),
     reader.collections.experiences.all(),
   ]);
 
-  const experiencesMap = new Map(
-    allExperiences.map((exp) => [exp.slug, exp.entry]),
+  const projectsWithResolvedExperience = resolveProjectExperiences(
+    allProjects,
+    allExperiences,
   );
-
-  type UnresolvedProjectItem = Omit<ProjectItem, 'entry'> & {
-    entry: Omit<ProjectItem['entry'], 'experience'> & {
-      experience?: string | null;
-    };
-  };
-
-  const projectsWithResolvedExperience: ProjectItem[] = (allProjects as UnresolvedProjectItem[]).map((project) => {
-    if (project.entry.experience) {
-      const resolvedExperience = experiencesMap.get(project.entry.experience);
-      // Ensure the resolved experience has the correct type for 'title'
-      const typedResolvedExperience = resolvedExperience
-        ? {
-            ...resolvedExperience,
-            title: resolvedExperience.title as string, // Cast to string
-            company: (resolvedExperience.company || null) as string | null, // Ensure company is string or null
-          }
-        : null;
-
-      return {
-        ...project,
-        entry: {
-          ...project.entry,
-          experience: typedResolvedExperience
-            ? { slug: project.entry.experience, entry: typedResolvedExperience }
-            : null,
-        },
-      };
-    }
-    return project as ProjectItem; // Cast to ProjectItem if no experience
-  });
-
-  // Sort berdasarkan tahun terbaru (Descending)
-  const sortedProjects = projectsWithResolvedExperience.sort((a, b) => {
-    return Number(b.entry.year) - Number(a.entry.year);
-  });
+  const sortedProjects = sortProjectsByYear(projectsWithResolvedExperience);
 
   const projectLink = directory?.links.find((link) => link.href === "/projects");
 
@@ -72,4 +41,3 @@ export default async function ProjectsPage() {
     </div>
   );
 }
-

@@ -1,11 +1,11 @@
-import { createReader } from "@keystatic/core/reader";
-import config from "@config";
+import { getKeystaticReader } from "@/lib/keystatic";
 import { Header } from "./_components/Header";
 import { List } from "./_components/List";
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import { sortByDate } from "@/lib/keystatic-content";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const reader = createReader(process.cwd(), config);
+  const reader = getKeystaticReader();
   const directory = await reader.singletons.directory.read();
   const thoughtLink = directory?.links.find((link) => link.href === "/thoughts");
 
@@ -16,20 +16,17 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ThoughtsPage() {
-  const reader = createReader(process.cwd(), config);
+  const reader = getKeystaticReader();
 
-  // 1. Fetch thoughts & directory
   const [thoughts, directory] = await Promise.all([
     reader.collections.thoughts.all(),
     reader.singletons.directory.read(),
   ]);
 
-  // 2. Sort by Date (Newest first)
-  const sortedThoughts = thoughts.sort((a, b) => {
-    const dateA = new Date(a.entry.publishedDate || 0).getTime();
-    const dateB = new Date(b.entry.publishedDate || 0).getTime();
-    return dateB - dateA;
-  });
+  const sortedThoughts = sortByDate(
+    thoughts,
+    (thought) => thought.entry.publishedDate,
+  );
 
   const thoughtLink = directory?.links.find((link) => link.href === "/thoughts");
 

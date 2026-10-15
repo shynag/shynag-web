@@ -12,7 +12,7 @@ type DirectoryProps = {
 };
 
 const defaultDirectory = {
-  title: "Indeks",
+  title: "Index",
   links: [
     {
       label: "Blog",
@@ -41,14 +41,11 @@ export function Directory({ directory }: DirectoryProps) {
             href={item.href}
             className="group flex items-center justify-between py-5 border-b border-border hover:bg-muted/30 transition-colors"
           >
-            {/* KIRI: Nomor & Label */}
             <div className="flex gap-6">
-              {/* Nomor */}
               <span className="text-muted-foreground/50 group-hover:text-foreground transition-colors">
                 {String(index + 1).padStart(2, "0")}
               </span>
 
-              {/* Label */}
               <span className="text-foreground group-hover:underline underline-offset-4 decoration-border transition-all">
                 {item.label || item.href}
               </span>

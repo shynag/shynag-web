@@ -40,10 +40,9 @@ export default async function ThoughtPostPage({
     notFound();
   }
 
-  // Hitung Read Time kasar (200 kata per menit)
-  // Keystatic document berbentuk JSON tree, kita perlu traverse untuk akurat,
-  // tapi untuk simplisitas kita hardcode atau hitung nanti.
-  const readTime = "5 min read"; // Placeholder, bisa dikembangkan
+  // Approximate reading time (200 words per minute). The Keystatic document
+  // is a JSON tree, so accurate word counting requires traversing its nodes.
+  const readTime = "5 min read";
 
   return (
     <div className="mx-auto max-w-2xl pt-8">
@@ -52,7 +51,6 @@ export default async function ThoughtPostPage({
         date={thought.publishedDate || ""}
         readTime={readTime}
       />
-      {/* Passing document JSON ke komponen Content */}
       <Content document={await thought.content()} />
     </div>
   );

@@ -1,11 +1,11 @@
-import { createReader } from "@keystatic/core/reader";
-import config from "@config";
+import { getKeystaticReader } from "@/lib/keystatic";
 import { Header } from "./_components/Header";
 import { List } from "./_components/List";
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import { sortByDate } from "@/lib/keystatic-content";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const reader = createReader(process.cwd(), config);
+  const reader = getKeystaticReader();
   const directory = await reader.singletons.directory.read();
   const experienceLink = directory?.links.find((link) => link.href === "/experience");
 
@@ -16,18 +16,16 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ExperiencePage() {
-  const reader = createReader(process.cwd(), config);
+  const reader = getKeystaticReader();
   const [experiences, directory] = await Promise.all([
     reader.collections.experiences.all(),
     reader.singletons.directory.read(),
   ]);
 
-  // Sort by start date (newest first)
-  const sortedExperiences = experiences.sort((a, b) => {
-    const dateA = new Date(a.entry.startDate || 0).getTime();
-    const dateB = new Date(b.entry.startDate || 0).getTime();
-    return dateB - dateA;
-  });
+  const sortedExperiences = sortByDate(
+    experiences,
+    (experience) => experience.entry.startDate,
+  );
 
   // Resolve description promises for each experience
   const resolvedExperiences = await Promise.all(

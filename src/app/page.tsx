@@ -3,58 +3,29 @@ import { Hero } from "@/app/_components/home/Hero";
 import { Contact } from "./_components/home/Contact";
 import { ProjectsPreview } from "./_components/home/ProjectsPreview";
 import { ThoughtsPreview } from "./_components/home/ThoughtsPreview";
-import { ExperiencePreview } from "./_components/home/ExperiencePreview"; // New import
-import { createReader } from "@keystatic/core/reader";
-import config from "@config";
-import { ProjectItem } from "@/app/projects/_components/List"; // Import ProjectItem
+import { ExperiencePreview } from "./_components/home/ExperiencePreview";
+import {
+  resolveProjectExperiences,
+  sortByDate,
+  sortProjectsByYear,
+} from "@/lib/keystatic-content";
 
 export default async function HomePage() {
   const reader = getKeystaticReader();
-  const keystaticReader = createReader(process.cwd(), config);
 
   const [profileData, identity, allProjects, allThoughts, allExperiences] =
     await Promise.all([
       reader.singletons.profile.read(),
       reader.singletons.identity.read(),
-      keystaticReader.collections.projects.all() as Promise<Array<Omit<ProjectItem, 'entry'> & { entry: Omit<ProjectItem['entry'], 'experience'> & { experience?: string | null; }; }>>,
-      keystaticReader.collections.thoughts.all(),
-      keystaticReader.collections.experiences.all(),
+      reader.collections.projects.all(),
+      reader.collections.thoughts.all(),
+      reader.collections.experiences.all(),
     ]);
 
-  const experiencesMap = new Map(
-    allExperiences.map((exp) => [exp.slug, exp.entry]),
+  const projectsWithResolvedExperience = resolveProjectExperiences(
+    allProjects,
+    allExperiences,
   );
-
-  type UnresolvedProjectItem = Omit<ProjectItem, 'entry'> & {
-    entry: Omit<ProjectItem['entry'], 'experience'> & {
-      experience?: string | null;
-    };
-  };
-
-  const projectsWithResolvedExperience: ProjectItem[] = (allProjects as UnresolvedProjectItem[]).map((project) => {
-    if (project.entry.experience) {
-      const resolvedExperience = experiencesMap.get(project.entry.experience);
-      // Ensure the resolved experience has the correct type for 'title'
-      const typedResolvedExperience = resolvedExperience
-        ? {
-            ...resolvedExperience,
-            title: resolvedExperience.title as string,
-            company: (resolvedExperience.company || null) as string | null, // Ensure company is string or null
-          }
-        : null;
-
-      return {
-        ...project,
-        entry: {
-          ...project.entry,
-          experience: typedResolvedExperience
-            ? { slug: project.entry.experience, entry: typedResolvedExperience }
-            : null,
-        },
-      };
-    }
-    return project as ProjectItem; // Cast to ProjectItem if no experience
-  });
 
   // Resolve the bio content if it's a function (lazy-loaded)
   const bioContent =
@@ -74,27 +45,21 @@ export default async function HomePage() {
     : null;
 
   // Sort projects by year (newest first) and get the first 3 for preview
-  const sortedProjects = projectsWithResolvedExperience.sort((a, b) => {
-    return Number(b.entry.year) - Number(a.entry.year);
-  });
+  const sortedProjects = sortProjectsByYear(projectsWithResolvedExperience);
   const projectsForPreview = sortedProjects.slice(0, 3);
   const showAllProjectsCta = allProjects.length > 3;
 
-  // Sort thoughts by published date (newest first) and get the first 3 for preview
-  const sortedThoughts = allThoughts.sort((a, b) => {
-    const dateA = new Date(a.entry.publishedDate || 0).getTime();
-    const dateB = new Date(b.entry.publishedDate || 0).getTime();
-    return dateB - dateA;
-  });
+  const sortedThoughts = sortByDate(
+    allThoughts,
+    (thought) => thought.entry.publishedDate,
+  );
   const thoughtsForPreview = sortedThoughts.slice(0, 3);
   const showAllThoughtsCta = allThoughts.length > 3;
 
-  // Sort experiences by start date (newest first) and get the first 3 for preview
-  const sortedExperiences = allExperiences.sort((a, b) => {
-    const dateA = new Date(a.entry.startDate || 0).getTime();
-    const dateB = new Date(b.entry.startDate || 0).getTime();
-    return dateB - dateA;
-  });
+  const sortedExperiences = sortByDate(
+    allExperiences,
+    (experience) => experience.entry.startDate,
+  );
   const experiencesForPreview = sortedExperiences.slice(0, 3);
   const showAllExperiencesCta = allExperiences.length > 3;
 

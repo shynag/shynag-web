@@ -26,12 +26,10 @@ export function Navbar() {
   ];
 
   return (
-    // STEP 1: Hapus 'h-...', Hapus 'flex items-center'.
-    // Biarkan header ini perilakunya block biasa.
+    // Keep the header as a regular block; avoid fixed height and flex alignment.
     <header className="w-full h-16 flex items-center border-b border-border/40">
-      {/* STEP 2: KONTROL PADDING DI SINI
-          - py-8: Jarak atas bawah TEGAS (32px). Total tinggi akan otomatis menyesuaikan.
-          - block: Pastikan div ini display block.
+      {/* Control the vertical spacing here with padding; let the height adjust naturally.
+          Keep this div as a block element.
       */}
       <div className="mx-auto block w-full max-w-2xl px-6 sm:px-0">
         <Breadcrumb>
@@ -60,7 +58,7 @@ export function Navbar() {
 
                   {!isLast && (
                     <BreadcrumbSeparator>
-                      {/* Slash kita kecilkan sedikit dan tipiskan agar elegan */}
+                      {/* Slightly reduce the slash size and weight for a cleaner look. */}
                       <Slash className="h-3 w-3 text-muted-foreground/30 -rotate-12" />
                     </BreadcrumbSeparator>
                   )}
