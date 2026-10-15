@@ -46,12 +46,12 @@ export async function CodeBlock({
           dangerouslySetInnerHTML={{ __html: html }}
           className="
             p-4 
-            [&>pre]:!bg-transparent 
-            [&>pre]:!m-0 
-            [&_code]:!font-mono 
-            [&_code]:!text-sm 
-            [&_code]:!leading-relaxed 
-            [&_code]:!font-normal
+            [&>pre]:bg-transparent!
+            [&>pre]:m-0!
+            [&_code]:font-mono!
+            [&_code]:text-sm!
+            [&_code]:leading-relaxed!
+            [&_code]:font-normal!
           "
         />
       </div>
