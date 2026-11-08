@@ -165,10 +165,9 @@ export default config({
           validation: { isRequired: true },
         }),
         endDate: fields.date({ label: "End Date (Optional)" }),
-        description: fields.document({
+        description: fields.text({
           label: "Description",
-          formatting: true,
-          links: true,
+          multiline: true,
         }),
         url: fields.url({ label: "Company Website (Optional)" }),
       },

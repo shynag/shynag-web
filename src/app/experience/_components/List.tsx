@@ -1,10 +1,3 @@
-import Link from "next/link";
-import {
-  DocumentRenderer,
-  type DocumentRendererProps,
-} from "@keystatic/core/renderer";
-import { getValidDocument } from "@/lib/keystatic-content";
-
 export type ExperienceItem = {
   slug: string;
   entry: {
@@ -13,7 +6,7 @@ export type ExperienceItem = {
     location: string;
     startDate: string;
     endDate: string | null;
-    description: DocumentRendererProps["document"];
+    description: string;
     url: string | null;
   };
 };
@@ -71,11 +64,9 @@ export function List({ items }: ListProps) {
                 : "Present"}
             </p>
 
-            <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed">
-              <DocumentRenderer
-                document={getValidDocument(experience.entry.description)}
-              />
-            </div>
+            <p className="text-muted-foreground leading-relaxed">
+              {experience.entry.description}
+            </p>
           </div>
         </div>
       ))}
