@@ -17,7 +17,7 @@ type HeroProps = {
 export function Hero({ profile, identity }: HeroProps) {
   // Determine the data to display. Prioritize profile, fallback to identity.
   const displayData = {
-    name: profile?.displayName || "John Doe", // Fallback name
+    name: profile?.displayName || identity?.name || "John Doe", // Fallback name
     bio: profile?.bio || [
       {
         type: "paragraph",

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   DocumentRenderer,
   DocumentRendererProps,
@@ -42,9 +43,11 @@ export function Content({ document }: ContentProps) {
             image: (props) => (
               <figure className="my-8 flex flex-col items-center">
                 <div className="relative overflow-hidden rounded-xl border border-border bg-muted w-full">
-                  <img
+                  <Image
                     src={props.src}
                     alt={props.alt || "Blog Image"}
+                    width={1200}
+                    height={675}
                     className="w-full h-auto object-cover"
                   />
                 </div>
